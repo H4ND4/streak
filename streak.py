@@ -54,6 +54,8 @@ if khogii_option and handa_option and not st.session_state.progress_saved:
                 st.session_state.streak += 1
             elif st.session_state.last_updated < (datetime.now().date() - timedelta(days=1)):
                 st.session_state.streak = 1  # Reset streak if more than a day has passed
+            else:
+                st.session_state.streak = 1  # Start streak if it's the first time
             st.session_state.last_updated = datetime.now().date()
         else:
             st.session_state.streak = 0  # Reset streak if either fails
@@ -65,20 +67,7 @@ else:
 # Display the streak
 st.header(f"Current Streak: {st.session_state.streak} days 🔥")
 
-# Allow user to upload their own image for motivation
-uploaded_image = st.file_uploader("Upload your own motivational image", type=["png", "jpg", "jpeg"])
-
-# Display the image for motivation
-if st.session_state.streak > 0:
-    if uploaded_image is not None:
-        st.image(uploaded_image, caption="Keep going! You're doing great!", width=300)
-    else:
-        st.image("https://i.imgur.com/3JQ2qyA.png", caption="Keep going! You're doing great!", width=300)
-else:
-    if uploaded_image is not None:
-        st.image(uploaded_image, caption="Start fresh today!", width=300)
-    else:
-        st.image("https://i.imgur.com/7Q7Q7Q7.png", caption="Start fresh today!", width=300)
+st.image("us.jpg", caption="Keep going! You're doing great!", width=300)
 
 # Footer
 st.write("Made with ❤️ by H&A")
