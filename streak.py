@@ -15,8 +15,6 @@ if 'handa_status' not in st.session_state:
     st.session_state.handa_status = None
 if 'progress_saved' not in st.session_state:
     st.session_state.progress_saved = False
-if 'custom_image' not in st.session_state:
-    st.session_state.custom_image = None
 
 # Healthy daily checklist
 st.write("Eruul amidrahiin tuluu✅")
@@ -49,7 +47,7 @@ if khogii_option and handa_option and not st.session_state.progress_saved:
         st.session_state.handa_status = handa_option
         st.session_state.progress_saved = True
 
-        # Streak logic (immediately after submitting)
+        # Streak logic
         if st.session_state.khogii_status == "Bi chadlaa ;))" and st.session_state.handa_status == "Bi chadlaa ;))":
             # Check if the last updated date is yesterday (to ensure it's a new day)
             if st.session_state.last_updated == (datetime.now().date() - timedelta(days=1)):
@@ -64,26 +62,21 @@ if khogii_option and handa_option and not st.session_state.progress_saved:
 else:
     st.button("Save Today's Progress", disabled=True)
 
-# Display the streak immediately after submitting
-if st.session_state.progress_saved:
-    st.header(f"Current Streak: {st.session_state.streak} days 🔥")
+# Display the streak
+st.header(f"Current Streak: {st.session_state.streak} days 🔥")
 
-# Upload custom image for motivation
-st.subheader("Upload Your Own Motivational Image")
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
-
-if uploaded_file is not None:
-    st.session_state.custom_image = uploaded_file
+# Allow user to upload their own image for motivation
+uploaded_image = st.file_uploader("Upload your own motivational image", type=["png", "jpg", "jpeg"])
 
 # Display the image for motivation
 if st.session_state.streak > 0:
-    if st.session_state.custom_image:
-        st.image(st.session_state.custom_image, caption="Keep going! You're doing great!", width=300)
+    if uploaded_image is not None:
+        st.image(uploaded_image, caption="Keep going! You're doing great!", width=300)
     else:
         st.image("https://i.imgur.com/3JQ2qyA.png", caption="Keep going! You're doing great!", width=300)
 else:
-    if st.session_state.custom_image:
-        st.image(st.session_state.custom_image, caption="Start fresh today!", width=300)
+    if uploaded_image is not None:
+        st.image(uploaded_image, caption="Start fresh today!", width=300)
     else:
         st.image("https://i.imgur.com/7Q7Q7Q7.png", caption="Start fresh today!", width=300)
 
